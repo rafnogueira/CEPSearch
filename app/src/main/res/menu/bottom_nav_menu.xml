@@ -11,5 +11,4 @@
         android:icon="@drawable/ic_settings_black_24"
         android:title="@string/title_settings" />
 
-
 </menu>

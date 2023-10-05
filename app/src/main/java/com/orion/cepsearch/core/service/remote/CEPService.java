@@ -110,12 +110,6 @@ public class CEPService {
             return currentApi = CURRENT_API_ENUM.NONE;
         }
     }
-//
-//    public void selectCurrentAPI(CURRENT_API_ENUM api) {
-//        this.currentApi = api;
-//    }
-
-
     private Retrofit clientFactory(String baseURL) {
         return new Retrofit.Builder()
                 .baseUrl(baseURL)

@@ -3,6 +3,7 @@ package com.orion.cepsearch.ui.search;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -29,44 +30,54 @@ public class SearchCepViewModel extends ViewModel {
         results = new MutableLiveData<>();
         showLoading = new MutableLiveData<>();
     }
+
     public void injectCepRepositoryContext(Context mContext) {
         cepRepository = new CepRepository(mContext);
     }
+
     public void searchCepClick() {
         String cep = "08588590";
         disposable = cepRepository.searchCep(cep)
-                        .doOnError(error -> {
-                                    if (cepRepository.hasApisToUse()) {
-                                        searchCepClick();
-                                    }
-                                }
-                        )
-                        .doFinally(() ->
-                                cepRepository.resetApiFlags()
-                        )
-                        .subscribe(this::showResults,
-                                throwable -> {
-                                    showErrorMessage(AppConstants.UNKNOW_API_ERROR);
-                                    Log.e(AppConstants.APP_API_RUNTIME_ERROR, AppConstants.UNKNOW_API_ERROR + throwable.getLocalizedMessage());
-                                });
+                .doOnError(error -> {
+                            if (cepRepository.hasApisToUse()) {
+                                searchCepClick();
+                            }
+                        }
+                )
+                .doFinally(() ->
+                        {
+                            cepRepository.resetApiFlags();
+                            hideLoading();
+                        }
+                )
+                .subscribe(this::showResults,
+                        throwable -> {
+                            String message = AppConstants.UNKNOW_API_ERROR + throwable.getLocalizedMessage();
+                            showErrorMessage(message);
+                            Log.e(AppConstants.APP_API_RUNTIME_ERROR, AppConstants.UNKNOW_API_ERROR + throwable.getLocalizedMessage());
+                        });
     }
+
     public LiveData<CepResult> getResults() {
         return results;
     }
 
-    public void showLoading(){
+    public void showLoading() {
         showLoading.postValue(true);
     }
-    public void hideLoading(){
+
+    public void hideLoading() {
         showLoading.postValue(false);
     }
 
-    public LiveData<Boolean> getLoading(){
+    public LiveData<Boolean> getLoading() {
         return showLoading;
     }
-    public void showResults(CepResult result){
+
+    public void showResults(CepResult result) {
         results.postValue(result);
     }
+
     public void showErrorMessage(String message) {
         errorMessage.postValue(message);
     }
@@ -82,9 +93,17 @@ public class SearchCepViewModel extends ViewModel {
     public LiveData<Integer> getToastMessageById() {
         return toastMessageById;
     }
-    public void dispose() {
+
+    public void dispose(LifecycleOwner lifecycleOwner) {
         if (this.disposable != null)
             this.disposable.dispose();
+
+        errorMessage.removeObservers(lifecycleOwner);
+        cepSearchParams.removeObservers(lifecycleOwner);
+        errorMessage.removeObservers(lifecycleOwner);
+        toastMessageById.removeObservers(lifecycleOwner);
+        results.removeObservers(lifecycleOwner);
+        showLoading.removeObservers(lifecycleOwner);
     }
 
 }

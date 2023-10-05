@@ -8,8 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.orion.cepsearch.core.model.local.CepResult;
 import com.orion.cepsearch.databinding.FragmentSettingsBinding;
+import com.orion.cepsearch.ui.adapter.ResultItemAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsFragment extends Fragment {
 
@@ -56,6 +62,18 @@ public class SettingsFragment extends Fragment {
 
         registerObservers();
 
+        binding.settingsCepsSavedRv.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        List<CepResult> results = new ArrayList<>();
+        results.add(new CepResult("Teste","Teste","Teste","Teste","Teste","Teste","Teste","Teste"));
+        results.add(new CepResult("Teste","Teste","Teste","Teste","Teste","Teste","Teste","Teste"));
+        results.add(new CepResult("Teste","Teste","Teste","Teste","Teste","Teste","Teste","Teste"));
+        results.add(new CepResult("Teste","Teste","Teste","Teste","Teste","Teste","Teste","Teste"));
+
+        ResultItemAdapter resultsAdapter = new ResultItemAdapter(results, requireContext());
+        binding.settingsCepsSavedRv.setAdapter(resultsAdapter);
+
+
         return root;
     }
 
@@ -82,6 +100,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        settingViewModel.dispose(getViewLifecycleOwner());
         binding = null;
     }
 }

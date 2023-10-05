@@ -2,6 +2,7 @@ package com.orion.cepsearch.ui.settings;
 
 import android.content.Context;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -64,7 +65,10 @@ public class SettingsViewModel extends ViewModel {
         return settingsRepository.getAwesomeCepSetting();
     }
 
-    public void dispose() {
-        this.disposable.dispose();
+    public void dispose(LifecycleOwner lifecycleOwner) {
+        if (disposable != null)
+            this.disposable.dispose();
+
+        this.disableSettingSwitch.removeObservers(lifecycleOwner);
     }
 }

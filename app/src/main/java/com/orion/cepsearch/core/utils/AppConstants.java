@@ -17,12 +17,10 @@ public final class AppConstants {
     //Core App Errors
     public static final String APP_API_DEBUG_ERROR = "API_DEBUG_ERROR";
     public static final String APP_API_RUNTIME_ERROR = "APP_API_RUNTIME_ERROR";
-
-    public static final String VIA_CEP_API_ERROR = "Via Cep API failed or is down";
-    public static final String API_CEP_ERROR = "Api Cep  failed or is down";
-    public static final String AWESOME_CEP_ERROR = "Awesome Cep failed or is down";
-
-    public static final String UNKNOW_API_ERROR = "One or more of the APIs are failing or are down";
-    public static final String NO_APIS_AVAILABLE_MESSAGE = "All APIs are failed or are down";
+    public static final String VIA_CEP_API_ERROR = "Via Cep falhou";
+    public static final String API_CEP_ERROR = "Api Cep falhou";
+    public static final String AWESOME_CEP_ERROR = "Awesome Cep falhou";
+    public static final String UNKNOW_API_ERROR = "Erro em alguma API, Message: ";
+    public static final String NO_APIS_AVAILABLE_MESSAGE = "Nenhum serviço foi acessível";
 }
 

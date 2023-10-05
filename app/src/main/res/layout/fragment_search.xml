@@ -310,6 +310,7 @@
             </View>
 
             <TextView
+                android:id="@+id/cep_search_error_layout_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
