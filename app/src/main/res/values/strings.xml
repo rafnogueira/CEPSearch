@@ -1,0 +1,15 @@
+<resources>
+
+    <string name="app_name">CepSearch_Fireworks</string>
+    <string name="title_search">Search</string>
+    <string name="title_settings">Settings</string>
+
+<!-- UI Messages-->
+    <string name="starting_cep_search">Searching CEP</string>
+    <string name="error_search"> Error ao pesquisar CEP, Todas as fontes desabilitadas ou offline" </string>
+    <string name="saving_address_local">Salvando endereço localmente</string>
+    <string name="api_success_connected"> API is Working fine" </string>
+    <string name="api_error_bad_request"> Error from API or bad request" </string>
+    <string name="api_error_404_down"> 404 from API " </string>
+
+</resources>

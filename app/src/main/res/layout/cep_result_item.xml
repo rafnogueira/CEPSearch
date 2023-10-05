@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="22dp"
+        android:layout_margin="20dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp">
+
+            <TextView
+                android:id="@+id/cep_search_result_cep_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                android:text="CEP:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_cep_txtview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Result"
+                app:layout_constraintBottom_toBottomOf="@+id/cep_search_result_cep_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cep_search_result_cep_label"
+                app:layout_constraintTop_toTopOf="@+id/cep_search_result_cep_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_address_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:text="Endereço:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cep_search_result_cep_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_address_txtview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Result"
+                app:layout_constraintBottom_toBottomOf="@+id/cep_result_item_address_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cep_result_item_address_label"
+                app:layout_constraintTop_toTopOf="@+id/cep_result_item_address_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_compl_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:text="Complemento:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cep_result_item_address_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_compl_txtview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Result"
+                app:layout_constraintBottom_toBottomOf="@+id/cep_result_item_compl_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cep_result_item_compl_label"
+                app:layout_constraintTop_toTopOf="@+id/cep_result_item_compl_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_district_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:text="Bairro:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cep_result_item_compl_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_district_txtview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Result"
+                app:layout_constraintBottom_toBottomOf="@+id/cep_result_item_district_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cep_result_item_district_label"
+                app:layout_constraintTop_toTopOf="@+id/cep_result_item_district_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_city_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:text="Cidade:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cep_result_item_district_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_city_txtview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Result"
+                app:layout_constraintBottom_toBottomOf="@+id/cep_result_item_city_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cep_result_item_city_label"
+                app:layout_constraintTop_toTopOf="@+id/cep_result_item_city_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_state_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:text="Estado:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cep_result_item_city_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_state_txtview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Result"
+                app:layout_constraintBottom_toBottomOf="@+id/cep_result_item_state_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cep_result_item_state_label"
+                app:layout_constraintTop_toTopOf="@+id/cep_result_item_state_label">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_api_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textStyle="bold"
+                android:text="Api:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cep_result_item_state_txtview">
+            </TextView>
+
+            <TextView
+                android:id="@+id/cep_result_item_api_txtview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Result"
+                app:layout_constraintBottom_toBottomOf="@+id/cep_result_item_api_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cep_result_item_api_label"
+                app:layout_constraintTop_toTopOf="@+id/cep_result_item_api_label">
+            </TextView>
+
+
+            <ImageButton
+                android:id="@+id/cep_result_save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cep_result_item_api_txtview"
+                android:layout_margin="12dp"
+                android:src="@drawable/ic_delete_black_24">
+
+            </ImageButton>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

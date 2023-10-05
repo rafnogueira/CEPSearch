@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchCepFragment">
+
+    <ImageView
+        android:id="@+id/city_background_imgview"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_dialog_map" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cep_search_layout"
+        android:layout_width="0dp"
+        android:layout_height="82dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_background_imgview">
+
+        <EditText
+            android:id="@+id/cep_search_edtText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cep_search_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/cep_search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_search_black_24"
+            android:contentDescription="Cep search button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </ImageButton>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cep_search_loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cep_search_layout">
+        <ProgressBar
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="80dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+        </ProgressBar>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cep_search_result_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cep_search_layout">
+
+        <TextView
+            android:id="@+id/cep_search_result_cep_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="CEP:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_cep_txtview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Result"
+            app:layout_constraintBottom_toBottomOf="@+id/cep_search_result_cep_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/cep_search_result_cep_label"
+            app:layout_constraintTop_toTopOf="@+id/cep_search_result_cep_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_address_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Endereço:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/cep_search_result_cep_label"
+            app:layout_constraintTop_toBottomOf="@+id/cep_search_result_cep_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_address_txtview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Result"
+            app:layout_constraintBottom_toBottomOf="@+id/cep_search_result_address_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cep_search_result_address_label"
+            app:layout_constraintTop_toTopOf="@+id/cep_search_result_address_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_district_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Bairro:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/cep_search_result_address_label"
+            app:layout_constraintTop_toBottomOf="@+id/cep_search_result_address_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_district_txtview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Result"
+            app:layout_constraintBottom_toBottomOf="@+id/cep_search_result_district_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cep_search_result_district_label"
+            app:layout_constraintTop_toTopOf="@+id/cep_search_result_district_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_city_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cidade:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/cep_search_result_address_label"
+            app:layout_constraintTop_toBottomOf="@+id/cep_search_result_district_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_city_txtview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Result"
+            app:layout_constraintBottom_toBottomOf="@+id/cep_search_result_city_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cep_search_result_city_label"
+            app:layout_constraintTop_toTopOf="@+id/cep_search_result_city_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_api_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Api:"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/cep_search_result_city_label"
+            app:layout_constraintTop_toBottomOf="@+id/cep_search_result_city_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_api_txtview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Result"
+            app:layout_constraintBottom_toBottomOf="@+id/cep_search_result_api_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cep_search_result_api_label"
+            app:layout_constraintTop_toTopOf="@+id/cep_search_result_api_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_lat_txtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Lat:"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/cep_search_result_api_label"
+            app:layout_constraintTop_toBottomOf="@+id/cep_search_result_api_label">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/cep_search_result_lng_txtview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Lng:"
+            android:textSize="12sp"
+
+            app:layout_constraintBottom_toBottomOf="@id/cep_search_result_lat_txtview"
+            app:layout_constraintStart_toEndOf="@id/cep_search_result_lat_txtview"
+            app:layout_constraintTop_toTopOf="@id/cep_search_result_lat_txtview">
+
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/cep_search_result_map_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_travel_explore_black_24"
+            app:layout_constraintStart_toStartOf="@+id/cep_search_result_lat_txtview"
+            app:layout_constraintTop_toBottomOf="@+id/cep_search_result_lat_txtview">
+
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/cep_search_result_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_save_black_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cep_search_result_lat_txtview"
+            app:layout_constraintVertical_bias="1.0">
+
+        </ImageButton>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cep_search_error_layout"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="42dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/error_background_header"
+            android:elevation="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="@color/error_line_header">
+            </View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="12dp"
+                android:gravity="center"
+                android:lineBreakStyle="loose"
+                android:text="error"
+                android:textAppearance="@color/black"
+                android:textSize="14sp">
+            </TextView>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
