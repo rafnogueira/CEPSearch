@@ -54,16 +54,19 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
 
-    implementation ("io.reactivex.rxjava2:rxjava:2.1.9")
-    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.3.0")
-    implementation ("io.reactivex.rxjava2:rxandroid:2.0.1")
+    implementation ("io.reactivex.rxjava2:rxjava:2.2.9")
+    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.7.2")
+    implementation ("io.reactivex.rxjava2:rxandroid:2.0.2")
     implementation ("com.squareup.okhttp3:logging-interceptor:3.9.1")
 
-    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.3.1")
-    implementation ("androidx.lifecycle:lifecycle-livedata:2.3.1")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-livedata:2.6.2")
 
     implementation ("com.google.android.material:material:1.9.0")
 
+    implementation ("androidx.room:room-runtime:2.5.2")
+    implementation("androidx.room:room-rxjava2:2.5.2")
 
+    annotationProcessor ("androidx.room:room-compiler:2.5.2")
 
 }

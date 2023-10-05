@@ -3,7 +3,7 @@ package com.orion.cepsearch.core.repository;
 import android.content.Context;
 import android.util.Log;
 
-import com.orion.cepsearch.core.model.local.CepResult;
+import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.core.model.remote.APICepJson;
 import com.orion.cepsearch.core.model.remote.CepAwesomeJson;
 import com.orion.cepsearch.core.model.remote.ViaCepJson;
@@ -22,39 +22,42 @@ public class CepRepository {
         apiCepService = new CEPService(mContext);
     }
 
-    public CepResult viaCepJsonToCepResult(ViaCepJson viaCepJson) {
-        return new CepResult(viaCepJson.getCep(),
+    public CepResultItem viaCepJsonToCepResult(ViaCepJson viaCepJson) {
+        return new CepResultItem(viaCepJson.getCep(),
                 viaCepJson.getLogradouro(),
                 viaCepJson.getBairro(),
                 viaCepJson.getLocalidade(),
                 viaCepJson.getComplemento(),
                 AppConstants.VIA_CEP_BASE_URL,
                 null,
+                null,
                 null
         );
     }
 
-    public CepResult apiCepJsonToCepResult(APICepJson apiCepJson) {
-        return new CepResult(apiCepJson.getCep(),
+    public CepResultItem apiCepJsonToCepResult(APICepJson apiCepJson) {
+        return new CepResultItem(apiCepJson.getCep(),
                 apiCepJson.getAddress(),
                 apiCepJson.getDistrict(),
                 apiCepJson.getCity(),
                 "",
                 AppConstants.API_CEP_BASE_URL,
                 null,
+                null,
                 null
         );
     }
 
-    public CepResult awesomeCepToCepResult(CepAwesomeJson cepAwesomeJson) {
-        return new CepResult(cepAwesomeJson.getCep(),
+    public CepResultItem awesomeCepToCepResult(CepAwesomeJson cepAwesomeJson) {
+        return new CepResultItem(cepAwesomeJson.getCep(),
                 cepAwesomeJson.getAddress(),
                 cepAwesomeJson.getDistrict(),
                 cepAwesomeJson.getCity(),
                 "",
                 AppConstants.CEP_AWESOME_BASE_URL,
                 cepAwesomeJson.getLat(),
-                cepAwesomeJson.getLng()
+                cepAwesomeJson.getLng(),
+                null
         );
     }
 
@@ -66,7 +69,7 @@ public class CepRepository {
         apiCepService.resetCurrentApi();
     }
 
-    public Observable<CepResult> searchCep(String params) {
+    public Observable<CepResultItem> searchCep(String params) {
         switch (apiCepService.getCurrentApiEnum()) {
             case VIA_CEP:
                 return apiCepService.getViaCepApi()

@@ -140,30 +140,6 @@
             </TextView>
 
             <TextView
-                android:id="@+id/cep_result_item_state_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textStyle="bold"
-                android:text="Estado:"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cep_result_item_city_label">
-            </TextView>
-
-            <TextView
-                android:id="@+id/cep_result_item_state_txtview"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="Result"
-                app:layout_constraintBottom_toBottomOf="@+id/cep_result_item_state_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cep_result_item_state_label"
-                app:layout_constraintTop_toTopOf="@+id/cep_result_item_state_label">
-            </TextView>
-
-            <TextView
                 android:id="@+id/cep_result_item_api_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -171,7 +147,7 @@
                 android:textStyle="bold"
                 android:text="Api:"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cep_result_item_state_txtview">
+                app:layout_constraintTop_toBottomOf="@id/cep_result_item_city_label">
             </TextView>
 
             <TextView
@@ -189,7 +165,7 @@
 
 
             <ImageButton
-                android:id="@+id/cep_result_save_btn"
+                android:id="@+id/cep_result_delete_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"

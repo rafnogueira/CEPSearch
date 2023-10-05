@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.orion.cepsearch.core.model.local.CepResult;
+import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.core.repository.CepRepository;
 import com.orion.cepsearch.core.utils.AppConstants;
 
@@ -18,7 +18,7 @@ public class SearchCepViewModel extends ViewModel {
     private MutableLiveData<String> errorMessage;
     private MutableLiveData<Integer> toastMessageById;
     private MutableLiveData<String> cepSearchParams = null;
-    private MutableLiveData<CepResult> results = null;
+    private MutableLiveData<CepResultItem> results = null;
     private MutableLiveData<Boolean> showLoading = null;
     private CepRepository cepRepository = null;
     private Disposable disposable = null;
@@ -58,7 +58,7 @@ public class SearchCepViewModel extends ViewModel {
                         });
     }
 
-    public LiveData<CepResult> getResults() {
+    public LiveData<CepResultItem> getResults() {
         return results;
     }
 
@@ -74,7 +74,7 @@ public class SearchCepViewModel extends ViewModel {
         return showLoading;
     }
 
-    public void showResults(CepResult result) {
+    public void showResults(CepResultItem result) {
         results.postValue(result);
     }
 

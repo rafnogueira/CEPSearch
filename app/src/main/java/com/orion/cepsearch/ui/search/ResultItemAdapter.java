@@ -1,24 +1,20 @@
 package com.orion.cepsearch.ui.search;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.orion.cepsearch.R;
-import com.orion.cepsearch.core.model.local.CepResult;
+import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.databinding.CepResultItemBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.ResultItemViewHolder> {
 
-    private List<CepResult> itemsList;
+    private List<CepResultItem> itemsList;
 
-    public ResultItemAdapter(List<CepResult> itemsList){
+    public ResultItemAdapter(List<CepResultItem> itemsList){
         this.itemsList = itemsList;
     }
 
@@ -45,7 +41,7 @@ public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.Re
             this.binding = binding;
         }
 
-        public void bind(CepResult item) {
+        public void bind(CepResultItem item) {
 
 //            binding.textView.setText(item.getText());
 

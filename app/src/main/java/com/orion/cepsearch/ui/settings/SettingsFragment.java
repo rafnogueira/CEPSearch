@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.orion.cepsearch.core.model.local.CepResult;
+import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.databinding.FragmentSettingsBinding;
 import com.orion.cepsearch.ui.adapter.ResultItemAdapter;
 
@@ -62,22 +63,12 @@ public class SettingsFragment extends Fragment {
 
         registerObservers();
 
-        binding.settingsCepsSavedRv.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        List<CepResult> results = new ArrayList<>();
-        results.add(new CepResult("Teste","Teste","Teste","Teste","Teste","Teste","Teste","Teste"));
-        results.add(new CepResult("Teste","Teste","Teste","Teste","Teste","Teste","Teste","Teste"));
-        results.add(new CepResult("Teste","Teste","Teste","Teste","Teste","Teste","Teste","Teste"));
-        results.add(new CepResult("Teste","Teste","Teste","Teste","Teste","Teste","Teste","Teste"));
-
-        ResultItemAdapter resultsAdapter = new ResultItemAdapter(results, requireContext());
-        binding.settingsCepsSavedRv.setAdapter(resultsAdapter);
-
+        settingViewModel.getCepList();
 
         return root;
     }
 
-    private void updateSwitches(Boolean manualSetting){
+    private void updateSwitches(Boolean manualSetting) {
         binding.settingsViaCepSwitch.setEnabled(manualSetting);
         binding.settingsViaCepSwitch.setChecked(manualSetting);
 
@@ -87,13 +78,32 @@ public class SettingsFragment extends Fragment {
         binding.settingsAwesomeCepSwitch.setEnabled(manualSetting);
         binding.settingsAwesomeCepSwitch.setChecked(manualSetting);
     }
+
     private void registerObservers() {
         if (settingViewModel != null) {
+
             settingViewModel.getManualSettingsSwitch().observe(getViewLifecycleOwner(), disableSwitchValue -> {
                 updateSwitches(disableSwitchValue);
                 settingViewModel.saveManualSwitchSetting(disableSwitchValue);
             });
 
+            settingViewModel.getCepLocalLiveData().observe(getViewLifecycleOwner(), cepResultItemList -> {
+
+                binding.settingsCepsSavedRv.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                binding.settingsCepsSavedRv.setAdapter(
+                        new ResultItemAdapter(cepResultItemList, requireContext(),
+                                new ResultItemAdapter.CepListClickListener(){
+                                    @Override
+                                    public void onClick(CepResultItem clickedItem) {
+
+                                        Toast.makeText(requireContext(), " ", Toast.LENGTH_LONG).show();
+
+
+                                    }
+                                }));
+
+            });
         }
     }
 

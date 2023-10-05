@@ -3,21 +3,27 @@ package com.orion.cepsearch.core.service.remote;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.room.Room;
+
 import com.orion.cepsearch.core.api.ApiCep;
 import com.orion.cepsearch.core.api.CepAwesomeAPI;
 import com.orion.cepsearch.core.api.ViaCepAPI;
+import com.orion.cepsearch.core.database.CepDatabase;
+import com.orion.cepsearch.core.model.local.Cep;
+import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.core.utils.AppConstants;
 import com.orion.cepsearch.core.utils.PreferencesManager;
 
+import java.util.List;
+
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CEPService {
-    private Retrofit viaCepClient = null;
-    private Retrofit apiCepClient = null;
-    private Retrofit awesomeCepClient = null;
-
     private boolean userManualSettingStatus = false;
     private boolean viaCEPEnabled = true;
     private boolean apiCepEnabled = true;
@@ -26,7 +32,11 @@ public class CEPService {
     private boolean apiCepDown = false;
     private boolean awesomeCepDown = false;
     private CURRENT_API_ENUM currentApi = null;
+    private Retrofit viaCepClient = null;
+    private Retrofit apiCepClient = null;
+    private Retrofit awesomeCepClient = null;
     private PreferencesManager prefsManager = null;
+    private CepDatabase cepDb = null;
 
     public enum CURRENT_API_ENUM {
         VIA_CEP,
@@ -37,6 +47,13 @@ public class CEPService {
 
     public CEPService(Context mContext) {
         prefsManager = new PreferencesManager(mContext);
+
+        cepDb = Room.databaseBuilder(mContext,
+                        CepDatabase.class,
+                        AppConstants.CEP_SEARCH_DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build();
+
         buildClients();
     }
 
@@ -97,6 +114,7 @@ public class CEPService {
 
         return currentApi;
     }
+
     public CURRENT_API_ENUM selectDefaultApiPossible() {
         if (viaCEPEnabled && !viaCEPDown) {
             return currentApi = CURRENT_API_ENUM.VIA_CEP;
@@ -110,6 +128,7 @@ public class CEPService {
             return currentApi = CURRENT_API_ENUM.NONE;
         }
     }
+
     private Retrofit clientFactory(String baseURL) {
         return new Retrofit.Builder()
                 .baseUrl(baseURL)
@@ -166,6 +185,23 @@ public class CEPService {
 
     public boolean getAwesomeCepEnabled() {
         return awesomeCepEnabled;
+    }
+
+    public Single<List<Cep>> getCepLocalList() {
+        return cepDb.getCepDAo().getAllCep();
+    }
+
+    public Completable saveCepLocal(CepResultItem cep) {
+        return cepDb.getCepDAo().insert(new Cep(
+                cep.getCep(),
+                cep.getAddress(),
+                cep.getDistrict(),
+                cep.getCity(),
+                cep.getCompl(),
+                cep.getSrcApiRef(),
+                cep.getLat(),
+                cep.getLng()
+        ));
     }
 }
 
