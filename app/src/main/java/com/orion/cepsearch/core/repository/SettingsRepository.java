@@ -11,7 +11,6 @@ import com.orion.cepsearch.core.utils.PreferencesManager;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -57,8 +56,8 @@ public class SettingsRepository {
         return prefsManager.getBoolean(AppConstants.AWESOME_CEP_SWITCH);
     }
 
-    public Completable saveCepLocal(CepResultItem cepItem) {
-        return cepService.saveCepLocal(cepItem)
+    public Completable deleteCepLocal(Cep cep) {
+        return cepService.deleteCepLocal(cep)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

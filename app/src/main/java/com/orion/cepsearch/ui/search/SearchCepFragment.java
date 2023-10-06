@@ -13,11 +13,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.orion.cepsearch.R;
+import com.orion.cepsearch.core.model.local.Cep;
+import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.databinding.FragmentSearchBinding;
 
 public class SearchCepFragment extends Fragment {
     private FragmentSearchBinding binding;
     private SearchCepViewModel searchCEPViewModel = null;
+
+    private CepResultItem cepResult = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -29,8 +33,28 @@ public class SearchCepFragment extends Fragment {
         View root = binding.getRoot();
 
         binding.cepSearchBtn.setOnClickListener(v -> {
+            cepResult = null;
             searchCEPViewModel.showLoading();
-            searchCEPViewModel.searchCepClick();
+            searchCEPViewModel.searchCepClick(binding.cepSearchEdtText.getText().toString());
+        });
+
+        binding.cepSearchResultMapBtn.setOnClickListener(view -> {
+            openMap(binding.cepSearchResultLatTxtview.getText().toString(), binding.cepSearchResultLngTxtview.getText().toString());
+        });
+
+        binding.cepSearchResultSaveBtn.setOnClickListener(v -> {
+            if (cepResult != null) {
+                searchCEPViewModel.saveCep(
+                        new Cep(0, cepResult.getCep(),
+                                cepResult.getAddress(),
+                                cepResult.getDistrict(),
+                                cepResult.getCity(),
+                                cepResult.getCompl(),
+                                cepResult.getSrcApiRef(),
+                                cepResult.getLat(),
+                                cepResult.getLng())
+                );
+            }
         });
 
         registerObservers();
@@ -62,8 +86,9 @@ public class SearchCepFragment extends Fragment {
                 }
             });
 
-            searchCEPViewModel.getResults().observe(getViewLifecycleOwner(), cepResult ->
+            searchCEPViewModel.getResult().observe(getViewLifecycleOwner(), cepResult ->
             {
+                this.cepResult = cepResult;
                 binding.cepSearchResultLayout.setVisibility(View.VISIBLE);
                 binding.cepSearchResultCepTxtview.setText(cepResult.getCep());
                 binding.cepSearchResultAddressTxtview.setText(cepResult.getAddress());
@@ -88,14 +113,6 @@ public class SearchCepFragment extends Fragment {
                     binding.cepSearchResultMapBtn.setVisibility(View.GONE);
                 }
 
-                binding.cepSearchResultMapBtn.setOnClickListener(view -> {
-                    openMap(binding.cepSearchResultLatTxtview.getText().toString(), binding.cepSearchResultLngTxtview.getText().toString());
-                });
-
-                binding.cepSearchResultSaveBtn.setOnClickListener(view -> {
-                    searchCEPViewModel.sendToastMessageById(R.string.saving_address_local);
-                });
-
                 searchCEPViewModel.hideLoading();
             });
         }
@@ -111,9 +128,8 @@ public class SearchCepFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        searchCEPViewModel.dispose(getViewLifecycleOwner());
-
         binding = null;
+        searchCEPViewModel.dispose(getViewLifecycleOwner());
     }
 
 }

@@ -4,25 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.orion.cepsearch.core.model.local.Cep;
 import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.databinding.FragmentSettingsBinding;
-import com.orion.cepsearch.ui.adapter.ResultItemAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.orion.cepsearch.ui.adapter.CepItemAdapter;
 
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
     private SettingsViewModel settingViewModel = null;
 
+    private CepItemAdapter rvCepAdapter = null;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,29 +39,8 @@ public class SettingsFragment extends Fragment {
         binding.settingsApiCepSwitch.setChecked(settingViewModel.getApiCepSwitchSetting());
         binding.settingsAwesomeCepSwitch.setChecked(settingViewModel.getAwesomeCepSwitchSetting());
 
-        binding.settingsManualApiSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    settingViewModel.updateManualSettingsSwitch(isChecked);
-                }
-        );
-
-        binding.settingsViaCepSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    settingViewModel.saveViaCepSetting(isChecked);
-                }
-        );
-
-        binding.settingsApiCepSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    settingViewModel.saveApiCepSetting(isChecked);
-                }
-        );
-
-        binding.settingsAwesomeCepSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    settingViewModel.saveCepAwesomeSetting(isChecked);
-                }
-        );
-
         registerObservers();
-
-        settingViewModel.getCepList();
+        settingViewModel.refreshCepList();
 
         return root;
     }
@@ -87,30 +64,55 @@ public class SettingsFragment extends Fragment {
                 settingViewModel.saveManualSwitchSetting(disableSwitchValue);
             });
 
-            settingViewModel.getCepLocalLiveData().observe(getViewLifecycleOwner(), cepResultItemList -> {
+            settingViewModel.getDeleteItemRv().observe(getViewLifecycleOwner(), deletedItem -> {
 
-                binding.settingsCepsSavedRv.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-                binding.settingsCepsSavedRv.setAdapter(
-                        new ResultItemAdapter(cepResultItemList, requireContext(),
-                                new ResultItemAdapter.CepListClickListener(){
-                                    @Override
-                                    public void onClick(CepResultItem clickedItem) {
-
-                                        Toast.makeText(requireContext(), " ", Toast.LENGTH_LONG).show();
-
-
-                                    }
-                                }));
+                if(rvCepAdapter != null)
+                    rvCepAdapter.removeItem(deletedItem);
 
             });
+
+            settingViewModel.getCepLocalLiveData().observe(getViewLifecycleOwner(), cepResultItemList -> {
+                binding.settingsCepsSavedRv.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                this.rvCepAdapter = new CepItemAdapter(cepResultItemList, requireContext(),
+                        new CepItemAdapter.CepListClickListener() {
+                            @Override
+                            public void onClick(CepResultItem cepResultItem) {
+
+                                settingViewModel.deleteCepItemLocal(cepResultItem);
+                            }
+                        });
+
+                binding.settingsCepsSavedRv.setAdapter(rvCepAdapter);
+            });
+
+            binding.settingsManualApiSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        settingViewModel.updateManualSettingsSwitch(isChecked);
+                    }
+            );
+
+            binding.settingsViaCepSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        settingViewModel.saveViaCepSetting(isChecked);
+                    }
+            );
+
+            binding.settingsApiCepSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        settingViewModel.saveApiCepSetting(isChecked);
+                    }
+            );
+
+            binding.settingsAwesomeCepSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        settingViewModel.saveCepAwesomeSetting(isChecked);
+                    }
+            );
+
         }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        settingViewModel.dispose(getViewLifecycleOwner());
         binding = null;
+        settingViewModel.dispose(getViewLifecycleOwner());
     }
 }

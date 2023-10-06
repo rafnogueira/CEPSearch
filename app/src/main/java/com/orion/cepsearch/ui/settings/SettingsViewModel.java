@@ -8,14 +8,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.orion.cepsearch.R;
+import com.orion.cepsearch.core.model.local.Cep;
 import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.core.repository.SettingsRepository;
 import com.orion.cepsearch.core.utils.AppConstants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import io.reactivex.disposables.Disposable;
@@ -25,11 +24,15 @@ public class SettingsViewModel extends ViewModel {
     private MutableLiveData<Boolean> disableSettingSwitch = null;
     private SettingsRepository settingsRepository = null;
     private MutableLiveData<List<CepResultItem>> cepLocalList = null;
+    private MutableLiveData<CepResultItem> deleteItemRv = null;
+    private MutableLiveData<Integer> toastMessageById = null;
     private Disposable disposable;
 
     public SettingsViewModel() {
         disableSettingSwitch = new MutableLiveData<Boolean>();
         cepLocalList = new MutableLiveData<List<CepResultItem>>();
+        toastMessageById = new MutableLiveData<Integer>();
+        deleteItemRv = new MutableLiveData<CepResultItem>();
     }
 
     public void injectPrefsManagerContext(Context mContext) {
@@ -76,29 +79,45 @@ public class SettingsViewModel extends ViewModel {
         return settingsRepository.getAwesomeCepSetting();
     }
 
-    public void saveCepTest(CepResultItem cepItem) {
-        settingsRepository.saveCepLocal(cepItem)
-                .subscribe(
-                        () -> {
-                            Log.e("", " ");
-
-                        },
-                        throwable -> {
-                            Log.e("", " ");
-
-                        }
-                );
-
-    }
-
-    public LiveData<List<CepResultItem>> getCepLocalLiveData(){
+    public LiveData<List<CepResultItem>> getCepLocalLiveData() {
         return this.cepLocalList;
     }
 
-    public void getCepList() {
-        settingsRepository.getCepLocalList()
+    public void deleteItemFromRv(CepResultItem cepItem){
+        this.deleteItemRv.postValue(cepItem);
+    }
+
+    public LiveData<CepResultItem> getDeleteItemRv(){
+        return this.deleteItemRv;
+    }
+    public void deleteCepItemLocal(CepResultItem cepItem) {
+        Cep cep = new Cep(cepItem.getId(),
+                cepItem.getCep(),
+                cepItem.getAddress(),
+                cepItem.getDistrict(),
+                cepItem.getCity(),
+                cepItem.getCompl(),
+                cepItem.getSrcApiRef(),
+                cepItem.getLat(),
+                cepItem.getLng());
+
+        settingsRepository.deleteCepLocal(cep)
                 .subscribe(
-                        resultList -> {
+                        () -> {
+                            deleteItemFromRv(cepItem);
+                            toastMessageById.postValue(R.string.cep_deleted_successful);
+                        },
+                        throwable -> {
+                            Log.e(AppConstants.LOCAL_DB_ERROR, throwable.getLocalizedMessage());
+                            toastMessageById.postValue(R.string.cep_delete_fail);
+                        }
+                );
+
+        }
+
+    public void refreshCepList() {
+        settingsRepository.getCepLocalList()
+                .subscribe(resultList -> {
                             if (resultList != null && !resultList.isEmpty()) {
                                 List<CepResultItem> list = resultList.stream().map(item ->
                                         new CepResultItem(item.getCep(),
@@ -127,6 +146,8 @@ public class SettingsViewModel extends ViewModel {
 
         this.disableSettingSwitch.removeObservers(lifecycleOwner);
         this.cepLocalList.removeObservers(lifecycleOwner);
+        this.toastMessageById.removeObservers(lifecycleOwner);
+        this.deleteItemRv.removeObservers(lifecycleOwner);
     }
 
 }

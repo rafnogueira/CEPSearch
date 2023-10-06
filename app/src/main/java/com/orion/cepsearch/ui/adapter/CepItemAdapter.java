@@ -2,7 +2,6 @@ package com.orion.cepsearch.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,17 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.databinding.CepResultItemBinding;
-import com.orion.cepsearch.ui.settings.SettingsFragment;
 
 import java.util.List;
 
-public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.ItemViewHolder> {
+public class CepItemAdapter extends RecyclerView.Adapter<CepItemAdapter.ItemViewHolder> {
 
     private List<CepResultItem> itemsList = null;
     private Context mContext = null;
     private CepListClickListener mClickListener = null;
 
-    public ResultItemAdapter(List<CepResultItem> itemsList, Context context, CepListClickListener clickListener) {
+    public CepItemAdapter(List<CepResultItem> itemsList, Context context, CepListClickListener clickListener) {
         this.itemsList = itemsList;
         this.mContext = context;
         this.mClickListener = clickListener;
@@ -44,6 +42,12 @@ public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.It
         return itemsList.size();
     }
 
+    public void removeItem(CepResultItem deletedItem) {
+        int index = itemsList.indexOf(deletedItem);
+        itemsList.remove(index);
+        notifyItemRemoved(index);
+    }
+
     //Adapter ViewHolder
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         private CepResultItemBinding binding;
@@ -63,6 +67,8 @@ public class ResultItemAdapter extends RecyclerView.Adapter<ResultItemAdapter.It
             binding.cepResultItemDistrictTxtview.setText(item.getDistrict());
             binding.cepResultItemCityTxtview.setText(item.getCity());
             binding.cepResultItemAddressTxtview.setText(item.getAddress());
+            binding.cepResultItemApiTxtview.setText(item.getSrcApiRef());
+
             binding.cepResultDeleteBtn.setOnClickListener(
                     v -> {
                         mClickListener.onClick(item);

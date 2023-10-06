@@ -10,14 +10,12 @@ import com.orion.cepsearch.core.api.CepAwesomeAPI;
 import com.orion.cepsearch.core.api.ViaCepAPI;
 import com.orion.cepsearch.core.database.CepDatabase;
 import com.orion.cepsearch.core.model.local.Cep;
-import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.core.utils.AppConstants;
 import com.orion.cepsearch.core.utils.PreferencesManager;
 
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -191,17 +189,12 @@ public class CEPService {
         return cepDb.getCepDAo().getAllCep();
     }
 
-    public Completable saveCepLocal(CepResultItem cep) {
-        return cepDb.getCepDAo().insert(new Cep(
-                cep.getCep(),
-                cep.getAddress(),
-                cep.getDistrict(),
-                cep.getCity(),
-                cep.getCompl(),
-                cep.getSrcApiRef(),
-                cep.getLat(),
-                cep.getLng()
-        ));
+    public Completable deleteCepLocal(Cep cep){
+        return cepDb.getCepDAo().deleteCep(cep);
+    }
+
+    public Completable saveCepLocal(Cep cep) {
+        return cepDb.getCepDAo().insert(cep);
     }
 }
 

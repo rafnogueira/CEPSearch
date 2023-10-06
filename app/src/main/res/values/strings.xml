@@ -6,10 +6,14 @@
 
 <!-- UI Messages-->
     <string name="starting_cep_search">Searching CEP</string>
-    <string name="error_search"> Error ao pesquisar CEP, Todas as fontes desabilitadas ou offline" </string>
-    <string name="saving_address_local">Salvando endereço localmente</string>
-    <string name="api_success_connected"> API is Working fine" </string>
-    <string name="api_error_bad_request"> Error from API or bad request" </string>
-    <string name="api_error_404_down"> 404 from API " </string>
+    <string name="error_search"> Error ao pesquisar CEP, Todas as fontes desabilitadas ou offline</string>
+    <string name="api_success_connected"> API is Working fine</string>
+    <string name="api_error_bad_request"> Error from API or bad request</string>
+    <string name="api_error_404_down"> 404 from API </string>
+    <string name="cep_deleted_successful"> Cep deletado com sucesso! </string>
+    <string name="cep_delete_fail"> Ocorreu um erro ao deletar este endereço</string>
+    <string name="local_cep_save_error">Houve um erro ao salvar o Cep localmente </string>
+    <string name="local_cep_saved">Endereço salvo localmente com sucesso</string>
+
 
 </resources>

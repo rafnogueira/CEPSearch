@@ -32,8 +32,8 @@ public class Cep {
     @ColumnInfo(name = "lng")
     private String lng = null;
 
-    // getters and setters
-    public Cep(String cep, String address, String district, String city, String compl, String srcApiRef, String lat, String lng) {
+    public Cep(Integer id, String cep, String address, String district, String city, String compl, String srcApiRef, String lat, String lng) {
+        this.id = id;
         this.cep = cep;
         this.address = address;
         this.district = district;
@@ -44,6 +44,7 @@ public class Cep {
         this.lng = lng;
     }
 
+    // getters and setters
     public int getId() {
         return id;
     }

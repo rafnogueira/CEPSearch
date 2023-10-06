@@ -8,6 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.orion.cepsearch.R;
+import com.orion.cepsearch.core.model.local.Cep;
 import com.orion.cepsearch.core.model.local.CepResultItem;
 import com.orion.cepsearch.core.repository.CepRepository;
 import com.orion.cepsearch.core.utils.AppConstants;
@@ -35,17 +37,27 @@ public class SearchCepViewModel extends ViewModel {
         cepRepository = new CepRepository(mContext);
     }
 
-    public void searchCepClick() {
-        String cep = "08588590";
+    public void saveCep(Cep cep) {
+        cepRepository.saveCepLocal(cep)
+                .subscribe(
+                        () -> {
+                            sendToastMessageById(R.string.local_cep_saved);
+                        },
+                        throwable -> {
+                            sendToastMessageById(R.string.local_cep_save_error);
+                        }
+                );
+    }
+
+    public void searchCepClick(String cep) {
         disposable = cepRepository.searchCep(cep)
                 .doOnError(error -> {
                             if (cepRepository.hasApisToUse()) {
-                                searchCepClick();
+                                searchCepClick(cep);
                             }
                         }
                 )
-                .doFinally(() ->
-                        {
+                .doFinally(() -> {
                             cepRepository.resetApiFlags();
                             hideLoading();
                         }
@@ -58,7 +70,7 @@ public class SearchCepViewModel extends ViewModel {
                         });
     }
 
-    public LiveData<CepResultItem> getResults() {
+    public LiveData<CepResultItem> getResult() {
         return results;
     }
 
